@@ -15,6 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText etNome;
@@ -79,12 +81,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bt_calcular.setOnClickListener(button -> calcularIMC(sb_peso.getProgress(), sb_altura.getProgress(), etNome.getText()));
+        String sexo = rb_fem.isChecked() ? rb_fem.getText().toString() : rb_masc.getText().toString();
+        bt_calcular.setOnClickListener(button -> calcularIMC(sb_peso.getProgress(), sb_altura.getProgress(), etNome.getText().toString(), sexo));
     }
 
-    private String calcularIMC(int peso, int altura, CharSequence nome, String sexo) {
-        Double imc = (double) (peso/(altura*altura));
+    private String calcularIMC(int peso, int altura, String nome, String sexo) {
+        Double alturaMetro = altura/100.;
+        Double imc = peso/(alturaMetro*alturaMetro);
+        String imcTruncado = String.format("%.2f",imc);
+        String condicao = determinarCondicao(imc, sexo);
+        Log.d("teste", nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao);
+        return nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao;
+    }
 
-        return ""
+    private String determinarCondicao(Double imc, String sexo) {
+        if ((imc < 19.1 && Objects.equals(sexo, "Feminino")) || (imc < 20.7 && Objects.equals(sexo, "Masculino"))) {
+            return "abaixo do peso";
+        } else if ((imc == 19.1 || imc < 25.8 && Objects.equals(sexo, "Feminino")) || (imc == 20.7 || imc < 26.4 && Objects.equals(sexo, "Masculino"))) {
+            return "no peso normal";
+        } else if ((imc == 25.8 || imc < 27.3 && Objects.equals(sexo, "Feminino")) || (imc == 26.4 || imc < 27.8 && Objects.equals(sexo, "Masculino"))) {
+            return "marginalmente acima do peso";
+        } else if ((imc == 27.3 || imc < 32.3 && Objects.equals(sexo, "Feminino")) || (imc == 27.8 || imc < 31.1 && Objects.equals(sexo, "Masculino"))) {
+            return "acima do peso ideal";
+        } else {
+            return "obeso";
+        }
     }
 }
