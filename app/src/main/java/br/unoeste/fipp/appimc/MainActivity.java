@@ -3,6 +3,7 @@ package br.unoeste.fipp.appimc;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,11 +20,13 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etNome;
+    private EditText etNome, etResultado;
     private RadioButton rb_fem, rb_masc;
     private SeekBar sb_peso, sb_altura;
     private TextView tvAltura, tvPeso;
-    private Button bt_calcular;
+    private Button bt_calcular, bt_reset, bt_fechar;
+    private String sexo, nome;
+    private int peso, altura;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         etNome = findViewById(R.id.etNome);
+        etResultado = findViewById(R.id.etResultado);
         rb_fem = findViewById(R.id.rb_fem);
         rb_masc = findViewById(R.id.rb_masc);
         sb_altura = findViewById(R.id.sb_altura);
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         tvAltura = findViewById(R.id.tvAltura);
         tvPeso = findViewById(R.id.tvPeso);
         bt_calcular = findViewById(R.id.bt_calcular);
+        bt_reset = findViewById(R.id.bt_reset);
+        bt_fechar = findViewById(R.id.bt_fechar);
 
         sb_peso.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -81,17 +87,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String sexo = rb_fem.isChecked() ? rb_fem.getText().toString() : rb_masc.getText().toString();
+        sexo = rb_fem.isChecked() ? rb_fem.getText().toString() : rb_masc.getText().toString();
         bt_calcular.setOnClickListener(button -> calcularIMC(sb_peso.getProgress(), sb_altura.getProgress(), etNome.getText().toString(), sexo));
+        bt_reset.setOnClickListener(button -> limpar());
+        bt_fechar.setOnClickListener(button -> fechar());
+
+        carregarDados();
     }
 
-    private String calcularIMC(int peso, int altura, String nome, String sexo) {
+    private void calcularIMC(int peso, int altura, String nome, String sexo) {
         Double alturaMetro = altura/100.;
         Double imc = peso/(alturaMetro*alturaMetro);
         String imcTruncado = String.format("%.2f",imc);
         String condicao = determinarCondicao(imc, sexo);
-        Log.d("teste", nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao);
-        return nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao;
+        String resultado = nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao;
+        etResultado.setText(resultado);
+        etResultado.setVisibility(View.VISIBLE);
     }
 
     private String determinarCondicao(Double imc, String sexo) {
@@ -105,6 +116,52 @@ public class MainActivity extends AppCompatActivity {
             return "acima do peso ideal";
         } else {
             return "obeso";
+        }
+    }
+
+    private void limpar () {
+        etNome.setText("");
+        sb_altura.setProgress(50);
+        sb_peso.setProgress(10);
+        rb_masc.setChecked(false);
+        rb_fem.setChecked(false);
+        etResultado.setVisibility(View.GONE);
+    }
+
+    private void fechar () {
+        super.finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("nome", etNome.getText().toString());
+        editor.putString("sexo", sexo);
+        editor.putInt("peso", sb_peso.getProgress());
+        editor.putInt("altura", sb_altura.getProgress());
+        editor.commit();
+    }
+
+    protected void carregarDados() {
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        nome=sharedPreferences.getString("nome","");
+        sexo=sharedPreferences.getString("sexo","");
+        peso=sharedPreferences.getInt("peso",10);
+        altura=sharedPreferences.getInt("altura",50);
+
+        etNome.setText(nome);
+        sb_peso.setProgress(peso);
+        sb_altura.setProgress(altura);
+        tvPeso.setText(""+peso);
+        tvAltura.setText(""+altura);
+        if (Objects.equals(sexo, "Feminino")) {
+            rb_fem.setChecked(true);
+            rb_masc.setChecked(false);
+        } else if (Objects.equals(sexo, "Masculino")) {
+            rb_masc.setChecked(true);
+            rb_fem.setChecked(false);
         }
     }
 }

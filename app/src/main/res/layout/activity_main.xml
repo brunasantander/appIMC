@@ -5,127 +5,173 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/titulo"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Cacule seu IMC"
-            android:textAlignment="center"
-            android:textColor="#6750A4"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="50dp">
 
-        <TextView
-            android:id="@+id/nome"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:text="Nome"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/etNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/sexo"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Sexo"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="83dp"
-            android:layout_marginTop="10dp">
-
-            <RadioButton
-                android:id="@+id/rb_fem"
-                android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:text="Feminino" />
-
-            <RadioButton
-                android:id="@+id/rb_masc"
+            <TextView
+                android:id="@+id/titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Masculino" />
-        </RadioGroup>
+                android:layout_marginBottom="10dp"
+                android:text="Cacule seu IMC"
+                android:textAlignment="center"
+                android:textColor="#6750A4"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/peso"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Peso"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nome"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-        <SeekBar
-            android:id="@+id/sb_peso"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:max="150"
-            android:min="10" />
+            <EditText
+                android:id="@+id/etNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
 
-        <TextView
-            android:id="@+id/tvPeso"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center" />
+            <TextView
+                android:id="@+id/sexo"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sexo"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/altura"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Altura"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:layout_marginTop="10dp">
 
-        <SeekBar
-            android:id="@+id/sb_altura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:max="200"
-            android:min="50" />
+                <RadioButton
+                    android:id="@+id/rb_fem"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:text="Feminino" />
 
-        <TextView
-            android:id="@+id/tvAltura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center" />
+                <RadioButton
+                    android:id="@+id/rb_masc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Masculino" />
+            </RadioGroup>
 
-        <Button
-            android:id="@+id/bt_calcular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Calcular"
-            android:textSize="18dp"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/peso"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Peso"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/sb_peso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:max="150"
+                android:min="10" />
+
+            <TextView
+                android:id="@+id/tvPeso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/altura"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Altura"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/sb_altura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:max="200"
+                android:min="50" />
+
+            <TextView
+                android:id="@+id/tvAltura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/bt_calcular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calcular"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/etResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:enabled="false"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:weightSum="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <Button
+                    android:id="@+id/bt_reset"
+                    android:layout_width="136dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#7965AF"
+                    android:text="Resetar" />
+
+                <Button
+                    android:id="@+id/bt_fechar"
+                    android:layout_width="136dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#847C7C"
+                    android:text="Fechar" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
