@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/itemPeso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peso" />
+
+    <TextView
+        android:id="@+id/itemAltura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Altura" />
+
+    <TextView
+        android:id="@+id/itemIMC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IMC" />
+
+    <TextView
+        android:id="@+id/itemCondicao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Condição" />
+
+    <TextView
+        android:id="@+id/itemData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data" />
+</LinearLayout>

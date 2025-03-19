@@ -103,9 +103,8 @@ public class MainActivity extends AppCompatActivity {
         bt_reset.setOnClickListener(button -> limpar());
         bt_fechar.setOnClickListener(button -> fechar());
         bt_historico.setOnClickListener(v -> {
-            Log.d("botao ", "clicou");
-//            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(intent);
         });
 
         carregarDados();
