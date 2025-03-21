@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
@@ -120,21 +121,24 @@ public class MainActivity extends AppCompatActivity {
         etResultado.setVisibility(View.VISIBLE);
 
         // armazenar
-        FileOutputStream fout  = null;
-        ObjectOutputStream out;
         UserData userData = new UserData(nome, condicao, peso, altura, imc, new Date());
         try {
-            FileOutputStream fileOutputStream = openFileOutput("userData.dad", MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            FileOutputStream fileOutputStream = openFileOutput("userData.dad", MODE_APPEND);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream) {
+                protected void writeStreamHeader() throws IOException {
+                    reset();
+                }
+            };
             objectOutputStream.writeObject(userData);
+            Log.d("Teste", "Nome: " + userData.getNome());
             objectOutputStream.close();
             fileOutputStream.close();
-
             Toast.makeText(this, "Dados salvos com sucesso!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Erro ao salvar os dados.", Toast.LENGTH_SHORT).show();
         }
+        limpar();
     }
 
     private String determinarCondicao(Double imc, String sexo) {

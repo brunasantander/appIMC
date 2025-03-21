@@ -58,16 +58,14 @@ public class HistoryAdapter extends BaseAdapter {
         UserData currentItem = userDataList.get(position);
         holder.itemName.setText("Nome: " + currentItem.getNome());
         holder.itemWeight.setText("Peso: " + currentItem.getPeso() + " kg");
-        holder.itemHeight.setText("Altura: " + currentItem.getAltura() + " m");
+        holder.itemHeight.setText("Altura: " + currentItem.getAltura() + " cm");
         holder.itemBmi.setText("IMC: " + String.format("%.2f", currentItem.getImc()));
         holder.itemCondition.setText("Condição: " + currentItem.getCondicaoFisica());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         holder.itemDate.setText("Data: " + dateFormat.format(currentItem.getDataCalculo()));
-
         return convertView;
     }
-
     static class ViewHolder {
         TextView itemName;
         TextView itemWeight;
