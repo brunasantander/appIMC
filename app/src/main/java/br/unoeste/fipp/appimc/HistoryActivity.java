@@ -2,8 +2,9 @@ package br.unoeste.fipp.appimc;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.util.Log;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class HistoryActivity extends AppCompatActivity {
     private ListView historyListView;
     private HistoryAdapter historyAdapter;
     private List<UserData> userDataList = new ArrayList<>();
+    private Button bt_exluirTudo;
+    private Button bt_apagar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,26 +29,38 @@ public class HistoryActivity extends AppCompatActivity {
 
         historyAdapter = new HistoryAdapter(this, userDataList);
         historyListView.setAdapter(historyAdapter);
+        bt_exluirTudo = findViewById(R.id.bt_excluirTudo);
+        bt_exluirTudo.setOnClickListener(v -> {
+            deleteAllUserData();
+            loadUserData();
+        });
+
+        bt_apagar = historyListView.findViewById(R.id.bt_apagar);
     }
 
     private void loadUserData() {
-        try {
-            FileInputStream fileInputStream = openFileInput("userData.dad");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    userDataList.clear();
+    try {
+        FileInputStream fileInputStream = openFileInput("userData.dad");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-            while (true) {
-                try {
-                    UserData userData = (UserData) objectInputStream.readObject();
-                    userDataList.add(userData);
-                } catch (EOFException e) {
-                    break; // End of file reached
-                }
-            }
+        userDataList = (List<UserData>) objectInputStream.readObject();
 
-            objectInputStream.close();
-            fileInputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        objectInputStream.close();
+        fileInputStream.close();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    if (historyAdapter != null) {
+        historyAdapter.notifyDataSetChanged();
+    }
+}
+
+    private void deleteAllUserData() {
+        userDataList.clear();
+        deleteFile("userData.dad");
+        historyAdapter.notifyDataSetChanged();
+    }
+
 }

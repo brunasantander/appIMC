@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -111,28 +112,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calcularIMC(int peso, int altura, String nome, String sexo) {
-        Double alturaMetro = altura/100.;
-        Double imc = peso/(alturaMetro*alturaMetro);
-        String imcTruncado = String.format("%.2f",imc);
+        Double alturaMetro = altura / 100.0;
+        Double imc = peso / (alturaMetro * alturaMetro);
+        String imcTruncado = String.format("%.2f", imc);
         String condicao = determinarCondicao(imc, sexo);
-        String resultado = nome+", voce possui "+peso+"Kg e "+alturaMetro+"m de altura, portanto seu IMC é de "+imcTruncado+". Voce está "+condicao;
+        String resultado = nome + ", você possui " + peso + "Kg e " + alturaMetro + "m de altura, portanto seu IMC é de " + imcTruncado + ". Você está " + condicao;
         etResultado.setText(resultado);
         etResultado.setVisibility(View.VISIBLE);
 
-        // armazenar
-        FileOutputStream fout  = null;
-        ObjectOutputStream out;
         UserData userData = new UserData(nome, condicao, peso, altura, imc, new Date());
+
+        List<UserData> userDataList = new ArrayList<>();
+        try {
+            FileInputStream fileInputStream = openFileInput("userData.dad");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            userDataList = (List<UserData>) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+        } catch (Exception e) {
+            Log.e("Erro", "Erro ao carregar dados existentes: " + e.getMessage());
+        }
+
+        userDataList.add(userData);
+
         try {
             FileOutputStream fileOutputStream = openFileOutput("userData.dad", MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(userData);
+            objectOutputStream.writeObject(userDataList);
             objectOutputStream.close();
             fileOutputStream.close();
 
             Toast.makeText(this, "Dados salvos com sucesso!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("Erro", "Erro ao salvar os dados: " + e.getMessage());
             Toast.makeText(this, "Erro ao salvar os dados.", Toast.LENGTH_SHORT).show();
         }
     }
