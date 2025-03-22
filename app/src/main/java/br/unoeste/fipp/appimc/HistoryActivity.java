@@ -33,8 +33,6 @@ public class HistoryActivity extends AppCompatActivity {
             deleteAllUserData();
             loadUserData();
         });
-
-        bt_apagar = historyListView.findViewById(R.id.bt_apagar);
     }
 
     private void loadUserData() {
