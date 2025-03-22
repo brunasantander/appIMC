@@ -16,7 +16,6 @@ public class HistoryActivity extends AppCompatActivity {
     private HistoryAdapter historyAdapter;
     private List<UserData> userDataList = new ArrayList<>();
     private Button bt_exluirTudo;
-    private Button bt_apagar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

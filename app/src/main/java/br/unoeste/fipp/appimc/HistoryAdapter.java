@@ -1,11 +1,17 @@
 package br.unoeste.fipp.appimc;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -64,6 +70,25 @@ public class HistoryAdapter extends BaseAdapter {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         holder.itemDate.setText("Data: " + dateFormat.format(currentItem.getDataCalculo()));
+        Button bt_apagar = convertView.findViewById(R.id.bt_apagar);
+
+        bt_apagar.setOnClickListener(v -> {
+            userDataList.remove(position);
+
+            try {
+                FileOutputStream fileOutputStream = context.openFileOutput("userData.dad", Context.MODE_PRIVATE);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(userDataList);
+                objectOutputStream.close();
+                fileOutputStream.close();
+
+                Toast.makeText(context, "Item apagado com sucesso!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("Erro", "Erro ao salvar os dados: " + e.getMessage());
+                Toast.makeText(context, "Erro ao apagar o item.", Toast.LENGTH_SHORT).show();
+            }
+            notifyDataSetChanged();
+        });
 
         return convertView;
     }
